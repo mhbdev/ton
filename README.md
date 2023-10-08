@@ -22,3 +22,13 @@ For doing this you have to pass the password as a String parameter.
 _tonPlugin.randomMnemonic(password: "YOU_WALLET_PASSWORD");
 ```
 This function will also return a Future of List of Strings which are the seed to your ton wallet.
+
+## Web Configuration
+
+Add the files in example project under `web` directory to your project and then add the script below to your `index.html` file
+```dart
+  <script src="ton-mnemonic/web/index.js"></script>
+```
+
+The files can be found here:
+[Web Mnemonic Library](./example/web/ton-mnemonic)

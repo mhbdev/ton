@@ -9,9 +9,9 @@ class MockTonPlatform with MockPlatformInterfaceMixin implements TonPlatform {
   Future<String?> getPlatformVersion() => Future.value('42');
 
   @override
-  Future<List<String>?> generateRandomMnemonic({String? password}) async {
+  Future<List<String>?> generateRandomMnemonic({String? password, int wordsCount = 24}) async {
     if (password == null) {
-      return List.generate(24, (index) => index.toString(), growable: false);
+      return List.generate(wordsCount, (index) => index.toString(), growable: false);
     }
     return [password];
   }
@@ -50,5 +50,16 @@ void main() {
     final mnemonic = await tonPlugin.randomMnemonic(password: password);
     expect(mnemonic!.length, 1);
     expect(mnemonic[0], password);
+  });
+
+  test('randomMnemonic with 12 wordsCount', () async {
+    const wordsCount = 12;
+
+    Ton tonPlugin = Ton();
+    MockTonPlatform fakePlatform = MockTonPlatform();
+    TonPlatform.instance = fakePlatform;
+
+    final mnemonic = await tonPlugin.randomMnemonic(wordsCount: wordsCount);
+    expect(mnemonic!.length, wordsCount);
   });
 }

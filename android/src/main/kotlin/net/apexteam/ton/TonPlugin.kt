@@ -31,11 +31,12 @@ class TonPlugin: FlutterPlugin, MethodCallHandler, CoroutineScope {
         }
         "generateRandomMnemonic" -> {
             val password = call.argument<String?>("password")
+            val wordCount = call.argument<Int>("wordCount")!!
           launch {
               val mnemonic = if(password == null) {
-                  Mnemonic.generate()
+                  Mnemonic.generate(wordCount= wordCount)
               } else {
-                  Mnemonic.generate(password= password)
+                  Mnemonic.generate(password= password, wordCount= wordCount)
               }
             result.success(mnemonic)
           }

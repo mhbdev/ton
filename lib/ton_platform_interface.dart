@@ -27,7 +27,13 @@ abstract class TonPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<List<String>?> generateRandomMnemonic({String? password}) {
+  /// Generate a random mnemonic
+  /// [password] will be used if it is passed to this method
+  /// You can also pass [wordsCount] to specify number of words in your password list
+  Future<List<String>?> generateRandomMnemonic({
+    String? password,
+    int wordsCount = 24,
+  }) {
     throw UnimplementedError('generateRandomMnemonic() has not been implemented.');
   }
 }
