@@ -55,7 +55,23 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Column(
+            children: [
+              Text('Running on: $_platformVersion\n'),
+              FutureBuilder(future: _tonPlugin.randomMnemonic(password: "HELLOWORLD"), builder: (context, snapshot) {
+                if(snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                }
+
+                if(snapshot.hasData && snapshot.data != null) {
+                  return Text(snapshot.data!.join(', '));
+                }
+
+
+                return const Text('Creating random mnemonic...');
+              }),
+            ],
+          ),
         ),
       ),
     );

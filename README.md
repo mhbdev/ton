@@ -1,15 +1,24 @@
 # ton
 
-Ton Sdk for Flutter
+Ton Sdk for Flutter.
+This project uses `org.ton:ton-kotlin:0.2.15` for native android calls and does not support web, linux and windows yet.
 
 ## Getting Started
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+First of all initiate a `Ton` variable
+```dart
+final _tonPlugin = Ton();
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Generating a random mnemonic:
+```dart
+_tonPlugin.randomMnemonic();
+```
+This function will return a Future of List of Strings which are the seed to your wallet.
 
+Generating a random mnemonic with password:
+For doing this you have to pass the password as a String parameter.
+```dart
+_tonPlugin.randomMnemonic(password: "YOU_WALLET_PASSWORD");
+```
+This function will also return a Future of List of Strings which are the seed to your ton wallet.

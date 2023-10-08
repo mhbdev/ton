@@ -1,3 +1,8 @@
+## 0.0.2
+
+- Added two new methods to generate random mnemonic with and without password
+- Updated Example and Tests to show the result is working fine
+
 ## 0.0.1
 
-* TODO: Describe initial release.
+* Initial Release

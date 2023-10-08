@@ -14,4 +14,10 @@ class MethodChannelTon extends TonPlatform {
     final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
     return version;
   }
+
+  @override
+  Future<List<String>?> generateRandomMnemonic({String? password}) async {
+    final mnemonic = await methodChannel.invokeMethod<List<Object?>>('generateRandomMnemonic', password);
+    return mnemonic?.map((e) => e.toString()).toList();
+  }
 }

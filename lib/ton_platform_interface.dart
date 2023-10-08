@@ -26,4 +26,8 @@ abstract class TonPlatform extends PlatformInterface {
   Future<String?> getPlatformVersion() {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
+
+  Future<List<String>?> generateRandomMnemonic({String? password}) {
+    throw UnimplementedError('generateRandomMnemonic() has not been implemented.');
+  }
 }
