@@ -52,8 +52,13 @@ The files can be found here:
 # How to Contribute
 
 Registration: Connect your wallet and fill your GitHub and Telegram accounts in ton society
+
 Fork & Clone: Fork this repository and clone it to your local machine.
+
 Pick an Issue: Browse open issues, choose one that interests you, and commit to it.
+
 Code Away: Address the issue in your local environment.
+
 Pull Request: Submit a PR for review. Please ensure your PR title is clear and your description is detailed.
+
 Contact the team: notify the team of your PR to check the code
