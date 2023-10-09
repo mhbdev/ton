@@ -17,10 +17,29 @@ class MethodChannelTon extends TonPlatform {
 
   @override
   Future<List<String>?> generateRandomMnemonic({String? password, int wordsCount = 24}) async {
-    final mnemonic = await methodChannel.invokeMethod<List<Object?>>('generateRandomMnemonic', {
+    final mnemonic = await methodChannel.invokeListMethod<String>('generateRandomMnemonic', {
       'password': password,
       'wordCount': wordsCount,
     });
-    return mnemonic?.map((e) => e.toString()).toList();
+    return mnemonic;
+  }
+
+  @override
+  Future<Uint8List?> toSeed(List<String> mnemonic) async {
+    final seed = await methodChannel.invokeMethod<Uint8List>('toSeed', {
+      'mnemonic': mnemonic,
+    });
+
+    return seed;
+  }
+  
+  @override
+  Future<bool> isMnemonicValid(List<String> mnemonic, [String? password]) async {
+    final isValid = await methodChannel.invokeMethod<bool>('isMnemonicValid', {
+      'mnemonic': mnemonic,
+      'password': password,
+    });
+
+    return isValid ?? false;
   }
 }

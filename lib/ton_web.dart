@@ -4,8 +4,10 @@
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html show window;
 import 'dart:js' as js;
+import 'dart:js_interop';
 import 'dart:js_util';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:ton/ton_web_js/ton_web_js.dart';
 import 'ton_platform_interface.dart';
@@ -35,5 +37,15 @@ class TonWeb extends TonPlatform {
             : TonWebJs.mnemonic.generateMnemonic())) as List<dynamic>)
         .map((e) => e.toString())
         .toList();
+  }
+
+  @override
+  Future<bool> isMnemonicValid(List<String> mnemonic, [String? password]) async {
+    return await promiseToFuture(TonWebJs.mnemonic.validateMnemonic(mnemonic.map((e) => e.toJS).toList(), password ?? ''));
+  }
+
+  @override
+  Future<Uint8List?> toSeed(List<String> mnemonic, [String? password]) async {
+    return await promiseToFuture(TonWebJs.mnemonic.mnemonicToSeed(mnemonic.map((e) => e.toJS).toList(), password ?? ''));
   }
 }

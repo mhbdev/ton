@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ton/ton.dart';
 import 'package:ton/ton_platform_interface.dart';
@@ -14,6 +16,19 @@ class MockTonPlatform with MockPlatformInterfaceMixin implements TonPlatform {
       return List.generate(wordsCount, (index) => index.toString(), growable: false);
     }
     return [password];
+  }
+
+  @override
+  Future<Uint8List?> toSeed(List<String> mnemonic) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> isMnemonicValid(List<String> mnemonic, [String? password]) async {
+    if(mnemonic.length == 24 || mnemonic.length == 12) {
+      return true;
+    }
+    return false;
   }
 }
 
@@ -61,5 +76,14 @@ void main() {
 
     final mnemonic = await tonPlugin.randomMnemonic(wordsCount: wordsCount);
     expect(mnemonic!.length, wordsCount);
+  });
+
+  test('check if mnemonic is valid', () async {
+    Ton tonPlugin = Ton();
+    MockTonPlatform fakePlatform = MockTonPlatform();
+    TonPlatform.instance = fakePlatform;
+
+    final mnemonic = await tonPlugin.randomMnemonic();
+    expect(await tonPlugin.isMnemonicValid(mnemonic ?? []), true);
   });
 }

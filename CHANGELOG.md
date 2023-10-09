@@ -2,6 +2,8 @@
 
 - Added Minimal Web Support
 - Added `wordsCount` property to `randomMnemonic` both for web and android platforms
+- Checking if a mnemonic is valid or not using `isMnemonicValid` method
+- Converting mnemonics to seed using `toSeed` method
 
 ## 0.0.2
 

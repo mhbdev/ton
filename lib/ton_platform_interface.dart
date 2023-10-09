@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'ton_method_channel.dart';
@@ -35,5 +37,15 @@ abstract class TonPlatform extends PlatformInterface {
     int wordsCount = 24,
   }) {
     throw UnimplementedError('generateRandomMnemonic() has not been implemented.');
+  }
+
+  /// Converts [mnemonic] to Seed
+  Future<Uint8List?> toSeed(List<String> mnemonic) {
+    throw UnimplementedError('toSeed() has not been implemented.');
+  }
+
+  /// Check if the given mnemonic is valid or not
+  Future<bool> isMnemonicValid(List<String> mnemonic, [String? password]) {
+    throw UnimplementedError('isMnemonicValid() has not been implemented.');
   }
 }

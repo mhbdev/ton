@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -31,8 +33,7 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
     try {
-      platformVersion =
-          await _tonPlugin.getPlatformVersion() ?? 'Unknown platform version';
+      platformVersion = await _tonPlugin.getPlatformVersion() ?? 'Unknown platform version';
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -55,22 +56,79 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Column(
-            children: [
-              Text('Running on: $_platformVersion\n'),
-              FutureBuilder(future: _tonPlugin.randomMnemonic(password: "HELLOWORLD"), builder: (context, snapshot) {
-                if(snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                }
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Text('Running on: $_platformVersion\n'),
+                FutureBuilder(
+                    future: _tonPlugin.randomMnemonic(password: "HELLOWORLD"),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      }
 
-                if(snapshot.hasData && snapshot.data != null) {
-                  return Text(snapshot.data!.join(', '));
-                }
+                      if (snapshot.hasData && snapshot.data != null) {
+                        return Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Mnemonic:',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Expanded(
+                                  child: FutureBuilder(
+                                    future: _tonPlugin.isMnemonicValid(snapshot.data!, 'HELLOWORLD'),
+                                    builder: (context, snapshot) {
+                                      if(snapshot.hasError) {
+                                        return Text(snapshot.error.toString(), textAlign: TextAlign.end, maxLines: 1,);
+                                      }
 
+                                      if(snapshot.hasData && snapshot.data != null) {
+                                        return Text(snapshot.data! ? 'Valid' : 'Invalid', textAlign: TextAlign.end, maxLines: 1,);
+                                      }
 
-                return const Text('Creating random mnemonic...');
-              }),
-            ],
+                                      return const CircularProgressIndicator();
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(snapshot.data!.join(', ')),
+                            const Divider(),
+                            FutureBuilder(
+                              future: _tonPlugin.toSeed(snapshot.data!),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError) {
+                                  return Text(snapshot.error.toString());
+                                }
+
+                                if (snapshot.hasData && snapshot.data != null) {
+                                  return Column(
+                                    children: [
+                                      const Text(
+                                        'Seed:',
+                                        style: TextStyle(fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(base64Encode(snapshot.data!)),
+                                      const Divider(),
+                                    ],
+                                  );
+                                }
+
+                                return const Text('Converting mnemonic to seed...');
+                              },
+                            ),
+                          ],
+                        );
+                      }
+
+                      return const Text('Creating random mnemonic...');
+                    }),
+              ],
+            ),
           ),
         ),
       ),
