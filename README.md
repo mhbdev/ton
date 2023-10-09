@@ -62,3 +62,8 @@ Code Away: Address the issue in your local environment.
 Pull Request: Submit a PR for review. Please ensure your PR title is clear and your description is detailed.
 
 Contact the team: notify the team of your PR to check the code
+
+# Links
+
+[Official HACK-TON-BERFEST 2023 Telegram group](https://t.me/hack_ton_berfest_2023)
+[Flutter Ton Sdk Discussion Telegram Group](https://t.me/FlutterTon)
