@@ -65,5 +65,5 @@ Contact the team: notify the team of your PR to check the code
 
 # Links
 
-[Official HACK-TON-BERFEST 2023 Telegram group](https://t.me/hack_ton_berfest_2023)
-[Flutter Ton Sdk Discussion Telegram Group](https://t.me/FlutterTon)
+- [Official HACK-TON-BERFEST 2023 Telegram group](https://t.me/hack_ton_berfest_2023)
+- [Flutter Ton Sdk Discussion Telegram Group](https://t.me/FlutterTon)
