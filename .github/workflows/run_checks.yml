@@ -21,6 +21,11 @@ jobs:
       - uses: dart-lang/setup-dart@v1
         with:
           sdk: stable
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.10.2'
+          cache: true
 
       - name: Install dependencies
         run: flutter pub get
