@@ -27,7 +27,13 @@ jobs:
           cache: true
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze project source
+        run: dart analyze --fatal-infos
       # Here you can insert custom steps you need
       # - run: dart tool/generate-code.dart
       - name: Publish
-        run: flutter pub publish
+        run: flutter pub publish --force
