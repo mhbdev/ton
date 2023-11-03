@@ -5,14 +5,20 @@ on:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+*'
 
-concurrency:
-  group: ci-${{github.actor}}-${{github.head_ref || github.run_number}}-${{github.ref}}-publish
-  cancel-in-progress: true
+#concurrency:
+#  group: ci-${{github.actor}}-${{github.head_ref || github.run_number}}-${{github.ref}}-publish
+#  cancel-in-progress: true
 
 jobs:
-  publish:
-    permissions:
-      id-token: write # Required for authentication using OIDC
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
-    with:
-      environment: 'pub.dev'
+  publishing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@main
+
+      - name: '>> Flutter plugin <<'
+        uses: k-paxian/dart-package-publisher@master
+        with:
+          accessToken: ${{ secrets.OAUTH_ACCESS_TOKEN }}
+          refreshToken: ${{ secrets.OAUTH_REFRESH_TOKEN }}
+          format: true
