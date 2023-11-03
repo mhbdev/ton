@@ -1,3 +1,7 @@
+## 0.0.4
+
+* No big change
+
 ## 0.0.3
 
 - Added Minimal Web Support
