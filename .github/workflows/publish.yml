@@ -12,7 +12,7 @@ concurrency:
 jobs:
   publish:
     permissions:
-      id-token: write
+      id-token: write # Required for authentication using OIDC
     uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
     with:
       environment: 'pub.dev'
