@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:ton/tonconnect/types.dart';
+
 import '../crypto/session_crypto.dart';
 import '../exceptions.dart';
 import '../logger.dart';
@@ -19,7 +21,7 @@ class BridgeProvider extends BaseProvider {
 
   late BridgeSession _session;
   BridgeGateway? _gateway;
-  late Map<String, Completer<Map<String, dynamic>>> _pendingRequests;
+  late Map<String, Completer<Json>> _pendingRequests;
   late List<dynamic> _listeners;
 
   BridgeProvider(IStorage storage, {WalletApp? wallet}) {
@@ -32,7 +34,7 @@ class BridgeProvider extends BaseProvider {
     _listeners = [];
   }
 
-  Future<String> connect(Map<String, dynamic> request) async {
+  Future<String> connect(Json request) async {
     _closeGateways();
     final sessionCrypto = SessionCrypto();
 
@@ -63,7 +65,7 @@ class BridgeProvider extends BaseProvider {
     if (connection == null) {
       return false;
     }
-    final decodeConnection = jsonDecode(connection) as Map<String, dynamic>;
+    final decodeConnection = jsonDecode(connection) as Json;
 
     if (!decodeConnection.containsKey('session')) {
       return false;
@@ -126,12 +128,12 @@ class BridgeProvider extends BaseProvider {
   }
 
   @override
-  Future<Map<String, dynamic>> sendRequest(dynamic request) async {
+  Future<Json> sendRequest(dynamic request) async {
     if (_gateway == null || _session.walletPublicKey == null) {
       throw TonConnectError('Trying to send bridge request without session.');
     }
     final keyConnection = await _storage.getItem(key: IStorage.keyConnection, defaultValue: '{}');
-    var connection = jsonDecode(keyConnection!) as Map<String, dynamic>;
+    var connection = jsonDecode(keyConnection!) as Json;
     var id = connection['next_rpc_request_id'] != null
         ? connection['next_rpc_request_id'].toString()
         : '0';
@@ -149,7 +151,7 @@ class BridgeProvider extends BaseProvider {
 
     await _gateway!.send(encodedRequest, _session.walletPublicKey!, request['method']);
 
-    final completer = Completer<Map<String, dynamic>>();
+    final completer = Completer<Json>();
     _pendingRequests[id] = completer;
     return _pendingRequests;
   }
@@ -159,10 +161,10 @@ class BridgeProvider extends BaseProvider {
     _listeners.add(eventsCallback);
   }
 
-  Future<void> _gatewayListener(Map<String, dynamic> bridgeIncomingMessage) async {
+  Future<void> _gatewayListener(Json bridgeIncomingMessage) async {
     final String decryptMessage = _session.sessionCrypto
         .decrypt(bridgeIncomingMessage['message'], bridgeIncomingMessage['from']);
-    final walletMessage = jsonDecode(decryptMessage) as Map<String, dynamic>;
+    final walletMessage = jsonDecode(decryptMessage) as Json;
 
     logger.d('Wallet message received: $walletMessage');
 
@@ -182,7 +184,7 @@ class BridgeProvider extends BaseProvider {
     if (walletMessage.containsKey('id')) {
       final id = int.parse(walletMessage['id'].toString());
       final keyConnection = await _storage.getItem(key: IStorage.keyConnection, defaultValue: '{}');
-      var connection = jsonDecode(keyConnection!) as Map<String, dynamic>;
+      var connection = jsonDecode(keyConnection!) as Json;
       final lastId =
           connection.containsKey('last_wallet_event_id') ? connection['last_wallet_event_id'] : 0;
 
@@ -215,7 +217,7 @@ class BridgeProvider extends BaseProvider {
     throw TonConnectError('Bridge error');
   }
 
-  Future<void> _updateSession(Map<String, dynamic> connectEvent, String walletPublicKey) async {
+  Future<void> _updateSession(Json connectEvent, String walletPublicKey) async {
     _session.walletPublicKey = walletPublicKey;
 
     final connection = {
@@ -237,7 +239,7 @@ class BridgeProvider extends BaseProvider {
     }
   }
 
-  String _generateUniversalUrl(String universalUrl, Map<String, dynamic> request) {
+  String _generateUniversalUrl(String universalUrl, Json request) {
     const version = 2;
     final sessionId = _session.sessionCrypto.sessionId;
     final requestSafe = Uri.encodeComponent(jsonEncode(request));

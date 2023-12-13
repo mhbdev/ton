@@ -1,5 +1,6 @@
 import 'exceptions.dart';
 import 'logger.dart';
+import 'models/transaction.dart';
 import 'models/wallet_app.dart';
 import 'models/wallet_info.dart';
 import 'parsers/connect_event.dart';
@@ -103,21 +104,21 @@ class TonConnect {
   }
 
   /// Asks connected wallet to sign and send the transaction.
-  Future<dynamic> sendTransaction(Json transaction) async {
+  Future<dynamic> sendTransaction(Transaction transaction) async {
     if (!connected) {
       throw WalletNotConnectedError(null);
     }
 
     Json options = {
-      'required_messages_number': transaction['messages']?.length ?? 0
+      'required_messages_number': transaction.messages.length
     };
     _checkSendTransactionSupport(wallet!.device!.features, options);
 
     Json request = {
-      'valid_until': transaction['validUntil'],
-      'from': transaction['from'] ?? wallet!.account!.address,
-      'network': transaction['network'] ?? wallet!.account!.chain.value,
-      'messages': transaction['messages'] ?? []
+      'valid_until': transaction.validUntil,
+      'from': transaction.from ?? wallet!.account!.address,
+      'network': transaction.network?.value ?? wallet!.account!.chain.value,
+      'messages': transaction.messages.map((e) => e.toMap()).toList(),
     };
 
     Json response = await provider!
