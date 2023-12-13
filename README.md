@@ -1,5 +1,7 @@
 # ton
 
+![Flutter Ton Project](https://github.com/mhbdev/ton/assets/53684884/103e400a-6a77-4159-bc1e-5797521c52c9)
+
 Ton Sdk for Flutter.
 This project uses `org.ton:ton-kotlin:0.2.15` for native android calls and `https://github.com/toncenter/tonweb-mnemonic` for web support and does not support linux and windows yet.
 
