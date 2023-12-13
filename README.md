@@ -7,7 +7,7 @@ This project uses `org.ton:ton-kotlin:0.2.15` for native android calls and `http
 
 If you love this library and want to support its development you can donate any amount of coins to this TON address ☺️:
 
-**EQDKcML9_qEz_YsiUtxxIzaEBwCfAiCfKnM1oHIw5qIVO_MX**
+**UQDKcML9_qEz_YsiUtxxIzaEBwCfAiCfKnM1oHIw5qIVO67S**
 
 ## Getting Started
 
@@ -52,19 +52,9 @@ Add the files in example project under `web` directory to your project and then 
 The files can be found here:
 [Web Mnemonic Library](./example/web/ton-mnemonic)
 
-# How to Contribute
+## Ton Connect
 
-Registration: Connect your wallet and fill your GitHub and Telegram accounts in ton society
-
-Fork & Clone: Fork this repository and clone it to your local machine.
-
-Pick an Issue: Browse open issues, choose one that interests you, and commit to it.
-
-Code Away: Address the issue in your local environment.
-
-Pull Request: Submit a PR for review. Please ensure your PR title is clear and your description is detailed.
-
-Contact the team: notify the team of your PR to check the code
+You can find docs about ton-connect [here](./docs/TONCONNECT.md)
 
 # Links
 

@@ -34,18 +34,18 @@ class TonPlugin : FlutterPlugin, MethodCallHandler, CoroutineScope {
                 val password = call.argument<String?>("password")
                 val wordCount = call.argument<Int>("wordCount")!!
                 launch {
-                    val mnemonic = if (password == null) {
-                        Mnemonic.generate(wordCount = wordCount)
-                    } else {
-                        Mnemonic.generate(password = password, wordCount = wordCount)
-                    }
+                    val mnemonic =
+                        if (password == null) Mnemonic.generate(wordCount = wordCount) else Mnemonic.generate(
+                            password = password,
+                            wordCount = wordCount
+                        )
                     result.success(mnemonic)
                 }
             }
 
             "toSeed" -> {
                 val mnemonic = call.argument<List<String>>("mnemonic")
-                if(mnemonic.isNullOrEmpty()) {
+                if (mnemonic.isNullOrEmpty()) {
                     result.error("1", "mnemonic parameter could not be null or empty!", null)
                 }
                 result.success(Mnemonic.toSeed(mnemonic = mnemonic!!))
@@ -54,14 +54,14 @@ class TonPlugin : FlutterPlugin, MethodCallHandler, CoroutineScope {
             "isMnemonicValid" -> {
                 val mnemonic = call.argument<List<String>>("mnemonic")
                 val password = call.argument<String?>("password")
-                if(mnemonic.isNullOrEmpty()) {
+                if (mnemonic.isNullOrEmpty()) {
                     result.error("1", "mnemonic parameter could not be null or empty!", null)
                 }
-                val isValid = if (password == null) {
-                    Mnemonic.isValid(mnemonic= mnemonic!!)
-                } else {
-                    Mnemonic.isValid(mnemonic= mnemonic!!, password = password)
-                }
+                val isValid =
+                    if (password == null) Mnemonic.isValid(mnemonic = mnemonic!!) else Mnemonic.isValid(
+                        password = password,
+                        mnemonic = mnemonic!!
+                    )
                 result.success(isValid)
             }
 
