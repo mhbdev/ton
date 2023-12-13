@@ -3,11 +3,13 @@
 Ton Sdk for Flutter.
 This project uses `org.ton:ton-kotlin:0.2.15` for native android calls and `https://github.com/toncenter/tonweb-mnemonic` for web support and does not support linux and windows yet.
 
-# Buy me a coffee 
+# Buy me a pizza
 
 If you love this library and want to support its development you can donate any amount of coins to this TON address ☺️:
 
 **UQDKcML9_qEz_YsiUtxxIzaEBwCfAiCfKnM1oHIw5qIVO67S**
+
+You can also send your donations through my [PizzaTon campaign](https://t.me/pizzatonbot/app?startapp=64eac4333f9e4974e96b0a7f61f28828)
 
 ## Getting Started
 
