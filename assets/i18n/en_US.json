@@ -1,0 +1,91 @@
+{
+  "common": {
+    "close": "Close",
+    "openWallet": "Open wallet",
+    "copyLink": "Copy Link",
+    "linkCopied": "Link Copied",
+    "copied": "Copied",
+    "yourWallet": "Your Wallet",
+    "retry": "Retry",
+    "get": "GET",
+    "mobile": "Mobile",
+    "browserExtension": "Browser Extension",
+    "desktop": "Desktop"
+  },
+  "button": {
+    "connectWallet": "Connect Wallet",
+    "dropdown": {
+      "copy": "Copy address",
+      "copied": "Address copied!",
+      "disconnect": "Disconnect"
+    }
+  },
+  "notifications": {
+    "confirm": {
+      "header": "Open {{ name }} to confirm the transaction."
+    },
+    "transactionSent": {
+      "header": "Transaction sent",
+      "text": "Your transaction will be processed in a few seconds."
+    },
+    "transactionCanceled": {
+      "header": "Transaction canceled",
+      "text": "There will be no changes to your account."
+    }
+  },
+  "walletItem": {
+    "walletOn": "Wallet On",
+    "recent": "Recent",
+    "installed": "Installed",
+    "popular": "Popular"
+  },
+  "walletModal": {
+    "loading":  "Loading wallets",
+    "wallets": "Wallets",
+    "mobileUniversalModal": {
+      "connectYourWallet": "Connect your wallet",
+      "openWalletOnTelegramOrSelect": "Open Wallet in Telegram or select your wallet to connect",
+      "openWalletOnTelegram": "Open Wallet in Telegram",
+      "openLink": "Open Link",
+      "scan": "Scan with your mobile wallet"
+    },
+    "desktopUniversalModal": {
+      "connectYourWallet": "Connect your wallet",
+      "scan": "Scan with your mobile wallet",
+      "availableWallets": "Available wallets"
+    },
+    "mobileConnectionModal": {
+      "showQR": "Show QR Code",
+      "scanQR": "Scan the QR code below with your phone’s or {{ name }}’s camera",
+      "continueIn": "Continue in {{ name }}…",
+      "connectionDeclined": "Connection declined"
+    },
+    "desktopConnectionModal": {
+      "scanQR": "Scan the QR code below with your phone’s or {{ name }}’s camera",
+      "continueInExtension": "Continue in {{ name }} browser extension…",
+      "dontHaveExtension": "Seems you don't have installed {{ name }} browser extension",
+      "getWallet": "Get {{ name }}",
+      "continueOnDesktop": "Continue in {{ name }} on desktop…",
+      "openWalletOnTelegram": "Open Wallet in Telegram on desktop",
+      "connectionDeclined": "Connection declined"
+    },
+    "infoModal": {
+      "whatIsAWallet": "What is a wallet",
+      "secureDigitalAssets": "Secure digital assets storage",
+      "walletProtects": "A wallet protects and manages your digital assets including TON, tokens and collectables.",
+      "controlIdentity": "Control your Web3 identity",
+      "manageIdentity": "Manage your digital identity and access decentralized applications with ease. Maintain control over your data and engage securely in the blockchain ecosystem.",
+      "effortlessCryptoTransactions": "Effortless crypto transactions",
+      "easilySend": "Easily send, receive, monitor your cryptocurrencies. Streamline your operations with decentralized applications.",
+      "getAWallet": "Get a Wallet"
+    }
+  },
+  "actionModal": {
+    "confirmTransaction": {
+      "header": "Confirm the transaction in {{ name }}",
+      "text": "It will only take a moment."
+    },
+    "transactionSent": "$notifications.transactionSent",
+    "transactionCanceled": "$notifications.transactionCanceled"
+  }
+}

@@ -24,6 +24,7 @@ dependencies:
   crypto: ^3.0.3
   provider: ^6.1.1
   qr_flutter: ^4.1.0
+  flutter_i18n: ^0.34.0
 
 dev_dependencies:
   flutter_test:
@@ -47,3 +48,6 @@ flutter:
       web:
         pluginClass: TonWeb
         fileName: ton_web.dart
+
+  assets:
+    - assets/i18n/en_US.json

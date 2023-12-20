@@ -115,6 +115,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_i18n:
+    dependency: transitive
+    description:
+      name: flutter_i18n
+      sha256: c7e9752c5dea38963bed26513c25a6e5db70c110fc2c68b84694aafa37b29636
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.34.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -123,6 +131,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  flutter_localizations:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -167,6 +180,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.1"
   js:
     dependency: transitive
     description:
@@ -191,6 +212,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2+1"
+  logging:
+    dependency: transitive
+    description:
+      name: logging
+      sha256: "623a88c9594aa774443aa3eb2d41807a48486b5613e67599fb4c41c0ad47c340"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   matcher:
     dependency: transitive
     description:
@@ -255,6 +284,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
+  petitparser:
+    dependency: transitive
+    description:
+      name: petitparser
+      sha256: cb3798bef7fc021ac45b308f4b51208a152792445cce0448c9a4ba5879dd8750
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.4.0"
   pinenacl:
     dependency: transitive
     description:
@@ -436,6 +473,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.1"
+  toml:
+    dependency: transitive
+    description:
+      name: toml
+      sha256: "157c5dca5160fced243f3ce984117f729c788bb5e475504f3dbcda881accee44"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.14.0"
   ton:
     dependency: "direct main"
     description:
@@ -523,6 +568,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.3"
+  xml:
+    dependency: transitive
+    description:
+      name: xml
+      sha256: "5bc72e1e45e941d825fd7468b9b4cc3b9327942649aeb6fc5cdbf135f0a86e84"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.3.0"
+  xml2json:
+    dependency: transitive
+    description:
+      name: xml2json
+      sha256: ffb6dc0132a59b2d10d1716aea34ff53fb0e5b73f46a347d302a1a993ea57675
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.2.1"
+  yaml:
+    dependency: transitive
+    description:
+      name: yaml
+      sha256: "75769501ea3489fca56601ff33454fe45507ea3bfb014161abc3b43ae25989d5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.2"
 sdks:
   dart: ">=3.2.0 <4.0.0"
   flutter: ">=3.16.0"

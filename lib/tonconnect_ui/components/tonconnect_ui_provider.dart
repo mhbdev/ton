@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:ton/tonconnect_ui/components/tonconnect_state.dart';
+
+const List<Locale> supportedLocales = [Locale('en', 'US')];
 
 class TonConnectUiProvider extends StatelessWidget {
   final Widget child;
   final bool? lazy;
   final String manifestUrl;
+  final Locale? locale;
+  final ThemeMode themeMode;
 
-  const TonConnectUiProvider({
+  TonConnectUiProvider({
     super.key,
     required this.child,
-    this.lazy,
     required this.manifestUrl,
-  });
+    this.lazy,
+    this.locale,
+    this.themeMode = ThemeMode.light,
+  }) : assert(locale == null || supportedLocales.contains(locale));
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +30,22 @@ class TonConnectUiProvider extends StatelessWidget {
       ),
       lazy: lazy,
       child: child,
-      builder: (context, child) => TonConnectWrapper(child: child!),
+      builder: (context, child) {
+        return Localizations.override(
+          context: context,
+          locale: locale ?? Localizations.maybeLocaleOf(context) ?? const Locale('en', 'US'),
+          delegates: [
+            FlutterI18nDelegate(
+              translationLoader: FileTranslationLoader(
+                basePath: 'assets/i18n',
+                useCountryCode: true,
+                forcedLocale: locale ?? const Locale('en', 'US'),
+              ),
+            ),
+          ],
+          child: FlutterI18n.rootAppBuilder()(context, TonConnectWrapper(child: child!)),
+        );
+      },
     );
   }
 }
