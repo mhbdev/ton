@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
-
 import 'ton_platform_interface.dart';
+
+export 'package:tonutils/tonutils.dart';
 
 class Ton {
   Future<String?> getPlatformVersion() {

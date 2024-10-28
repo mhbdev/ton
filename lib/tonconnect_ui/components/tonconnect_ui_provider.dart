@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:flutter_i18n/loaders/local_translation_loader.dart';
 import 'package:provider/provider.dart';
 import 'package:ton/tonconnect_ui/components/tonconnect_state.dart';
 

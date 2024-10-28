@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ton/tonconnect/models/account.dart';
 import 'package:ton/tonconnect/models/wallet_app.dart';
 import 'package:ton/tonconnect/wallet_list_manager.dart';
+import 'package:tonutils/dataformat.dart';
 
 import '../../tonconnect/tonconnect.dart';
 
@@ -30,9 +32,11 @@ class TonConnectState extends ChangeNotifier {
 
   Future<void> disconnect() => _connector.disconnect();
 
+  Account? getConnectedWallet() => _connector.wallet?.account;
+
   Future<List<WalletApp>> getWallets() async => await _connector.getWallets();
 
-  Future<String> connect({WalletApp? walletApp}) async {
+  Future<String> connect({WalletApp? walletApp, dynamic request}) async {
     try {
       final wallets = await _connector.getWallets();
       walletApp ??= (wallets.isNotEmpty ? wallets.first : fallbackWalletsList.first);
