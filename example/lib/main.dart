@@ -62,104 +62,102 @@ class _MyAppState extends State<MyApp> {
           child: child ?? const SizedBox.shrink(),
         );
       },
-      home: Builder(
-        builder: (context) => Scaffold(
-          appBar: AppBar(
-            title: const Text('Plugin example app'),
-          ),
-          body: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Text('Running on: $_platformVersion\n'),
-                  FutureBuilder(
-                      future: _tonPlugin.randomMnemonic(password: "HELLOWORLD"),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) {
-                          return Text(snapshot.error.toString());
-                        }
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Plugin example app'),
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Text('Running on: $_platformVersion\n'),
+                FutureBuilder(
+                    future: _tonPlugin.randomMnemonic(password: "HELLOWORLD"),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      }
 
-                        if (snapshot.hasData && snapshot.data != null) {
-                          return Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    'Mnemonic:',
-                                    style: TextStyle(fontWeight: FontWeight.bold),
+                      if (snapshot.hasData && snapshot.data != null) {
+                        return Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Mnemonic:',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Expanded(
+                                  child: FutureBuilder(
+                                    future:
+                                    _tonPlugin.isMnemonicValid(snapshot.data!, 'HELLOWORLD'),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasError) {
+                                        return Text(
+                                          snapshot.error.toString(),
+                                          textAlign: TextAlign.end,
+                                          maxLines: 1,
+                                        );
+                                      }
+
+                                      if (snapshot.hasData && snapshot.data != null) {
+                                        return Text(
+                                          snapshot.data! ? 'Valid' : 'Invalid',
+                                          textAlign: TextAlign.end,
+                                          maxLines: 1,
+                                        );
+                                      }
+
+                                      return const CircularProgressIndicator();
+                                    },
                                   ),
-                                  Expanded(
-                                    child: FutureBuilder(
-                                      future:
-                                      _tonPlugin.isMnemonicValid(snapshot.data!, 'HELLOWORLD'),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasError) {
-                                          return Text(
-                                            snapshot.error.toString(),
-                                            textAlign: TextAlign.end,
-                                            maxLines: 1,
-                                          );
-                                        }
+                                ),
+                              ],
+                            ),
+                            Text(snapshot.data!.join(', ')),
+                            const Divider(),
+                            FutureBuilder(
+                              future: _tonPlugin.toSeed(snapshot.data!),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError) {
+                                  return Text(snapshot.error.toString());
+                                }
 
-                                        if (snapshot.hasData && snapshot.data != null) {
-                                          return Text(
-                                            snapshot.data! ? 'Valid' : 'Invalid',
-                                            textAlign: TextAlign.end,
-                                            maxLines: 1,
-                                          );
-                                        }
+                                if (snapshot.hasData && snapshot.data != null) {
+                                  return Column(
+                                    children: [
+                                      const Text(
+                                        'Seed:',
+                                        style: TextStyle(fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(base64Encode(snapshot.data!)),
+                                      const Divider(),
+                                    ],
+                                  );
+                                }
 
-                                        return const CircularProgressIndicator();
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Text(snapshot.data!.join(', ')),
-                              const Divider(),
-                              FutureBuilder(
-                                future: _tonPlugin.toSeed(snapshot.data!),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasError) {
-                                    return Text(snapshot.error.toString());
-                                  }
+                                return const Text('Converting mnemonic to seed...');
+                              },
+                            ),
+                          ],
+                        );
+                      }
 
-                                  if (snapshot.hasData && snapshot.data != null) {
-                                    return Column(
-                                      children: [
-                                        const Text(
-                                          'Seed:',
-                                          style: TextStyle(fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(base64Encode(snapshot.data!)),
-                                        const Divider(),
-                                      ],
-                                    );
-                                  }
-
-                                  return const Text('Converting mnemonic to seed...');
-                                },
-                              ),
-                            ],
-                          );
-                        }
-
-                        return const Text('Creating random mnemonic...');
-                      }),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const TonConnectTestPage(),
-                          ));
-                    },
-                    child: const Text('Ton Connect UI'),
-                  )
-                ],
-              ),
+                      return const Text('Creating random mnemonic...');
+                    }),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const TonConnectTestPage(),
+                        ));
+                  },
+                  child: const Text('Ton Connect UI'),
+                )
+              ],
             ),
           ),
         ),
