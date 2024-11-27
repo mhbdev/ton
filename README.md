@@ -60,6 +60,11 @@ The files can be found here:
 
 You can find docs about ton-connect [here](./docs/TONCONNECT.md)
 
+### How to implement TonConnect Wallet connection?
+
+1. Wrap your application with `TonConnectUiProvider`.
+2. Use `TonConnectButton` in any inner widget.
+
 # Links
 
 - [Official HACK-TON-BERFEST 2023 Telegram group](https://t.me/hack_ton_berfest_2023)

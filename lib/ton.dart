@@ -1,7 +1,8 @@
 import 'package:flutter/services.dart';
 import 'ton_platform_interface.dart';
 
-export 'package:tonutils/tonutils.dart';
+export 'package:tonutils/tonutils.dart' hide Transaction;
+export 'tonconnect/models/transaction.dart' show Transaction;
 
 class Ton {
   Future<String?> getPlatformVersion() {

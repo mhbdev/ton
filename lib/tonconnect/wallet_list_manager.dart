@@ -6,17 +6,19 @@ import 'models/wallet_app.dart';
 
 const fallbackWalletsList = [
   WalletApp(
+      appName: 'tonkeeper',
       name: 'Tonkeeper',
       bridgeUrl: 'https://bridge.tonapi.io/bridge',
       image: 'https://tonkeeper.com/assets/tonconnect-icon.png',
       aboutUrl: 'https://tonkeeper.com',
       universalUrl: 'https://app.tonkeeper.com/ton-connect'),
   WalletApp(
+      appName: 'tonhub',
       name: 'Tonhub',
       bridgeUrl: 'https://connect.tonhubapi.com/tonconnect',
       image: 'https://tonhub.com/tonconnect_logo.png',
       aboutUrl: 'https://tonhub.com',
-      universalUrl: 'https://tonhub.com/ton-connect')
+      universalUrl: 'https://tonhub.com/ton-connect'),
 ];
 
 class WalletsListManager {

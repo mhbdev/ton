@@ -1,7 +1,7 @@
 @JS()
 library ton_web_js;
 
-import 'dart:js_interop';
+import 'dart:js_interop' show JSPromise, JSArray, JSString;
 
 import 'package:js/js.dart';
 

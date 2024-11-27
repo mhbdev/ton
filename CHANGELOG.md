@@ -1,3 +1,12 @@
+## 0.0.6
+
+* TonConnect improvements
+
+## 0.0.5
+
+* Bug fixes
+* TonConnect updates
+
 ## 0.0.4
 
 * No big change

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ton/tonconnect/models/account.dart';
+import 'package:ton/tonconnect/models/transaction.dart';
 import 'package:ton/tonconnect/models/wallet_app.dart';
+import 'package:ton/tonconnect/provider/bridge_provider.dart';
+import 'package:ton/tonconnect/tonconnect.dart';
 import 'package:ton/tonconnect/wallet_list_manager.dart';
-import 'package:tonutils/dataformat.dart';
-
-import '../../tonconnect/tonconnect.dart';
 
 class TonConnectState extends ChangeNotifier {
   final BuildContext _context;
@@ -28,7 +28,18 @@ class TonConnectState extends ChangeNotifier {
 
   bool get connected => _connector.connected;
 
+  Function onStatusChange(void Function(dynamic value) callback,
+      [void Function(dynamic value)? errorsHandler]) {
+    return _connector.onStatusChange(callback, errorsHandler);
+  }
+
   Future<bool> restoreConnection() => _connector.restoreConnection();
+
+  Future<dynamic> sendTransaction(Transaction transaction) {
+    return _connector.sendTransaction(transaction);
+  }
+
+  BridgeProvider? get provider => _connector.provider;
 
   Future<void> disconnect() => _connector.disconnect();
 
@@ -43,6 +54,6 @@ class TonConnectState extends ChangeNotifier {
     } catch(e) {
       walletApp ??= fallbackWalletsList.first;
     }
-    return await _connector.connect(walletApp);
+    return await _connector.connect(walletApp, request);
   }
 }

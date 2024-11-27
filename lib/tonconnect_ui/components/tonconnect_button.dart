@@ -3,14 +3,17 @@ import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:ton/tonconnect/exceptions.dart';
 import 'package:ton/tonconnect_ui/components/tonconnect_state.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../tonconnect/models/wallet_app.dart';
+
+typedef ConnectHandler = void Function([String? payload]);
 
 typedef TonConnectButtonBuilder = Widget Function(
     BuildContext context,
     TonConnectState state,
     TonConnectButtonState buttonState,
-    VoidCallback handler);
+    ConnectHandler handler);
 
 enum TonConnectButtonState { connected, normal, loading, error }
 
@@ -30,8 +33,8 @@ class _TonConnectButtonState extends State<TonConnectButton> {
   Widget build(BuildContext context) {
     return Consumer<TonConnectState>(
       builder: (context, state, child) {
-        return widget.builder(context, state, _buttonState, () {
-          if(!state.connected) {
+        return widget.builder(context, state, _buttonState, ([String? payload]) {
+          if (!state.connected) {
             setState(() {
               _buttonState = TonConnectButtonState.loading;
             });
@@ -48,6 +51,7 @@ class _TonConnectButtonState extends State<TonConnectButton> {
                     child: TonConnectDialog(
                       wallets: wallets,
                       state: state,
+                      payload: payload,
                     ),
                   ),
                 ),
@@ -79,9 +83,10 @@ class _TonConnectButtonState extends State<TonConnectButton> {
 class TonConnectDialog extends StatefulWidget {
   final List<WalletApp> wallets;
   final TonConnectState state;
+  final String? payload;
 
   const TonConnectDialog(
-      {super.key, required this.wallets, required this.state});
+      {super.key, required this.wallets, required this.state, this.payload});
 
   @override
   State<TonConnectDialog> createState() => _TonConnectDialogState();
@@ -113,17 +118,19 @@ class _TonConnectDialogState extends State<TonConnectDialog> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _connectionUrl != null ? IconButton(
-                  onPressed: () {
-                    if (_connectionUrl != null) {
-                      setState(() {
-                        _connectionUrl = null;
-                      });
-                    }
-                  },
-                  icon: Icon(_connectionUrl != null
-                      ? Icons.arrow_back
-                      : Icons.qr_code)) : const SizedBox.shrink(),
+              _connectionUrl != null
+                  ? IconButton(
+                      onPressed: () {
+                        if (_connectionUrl != null) {
+                          setState(() {
+                            _connectionUrl = null;
+                          });
+                        }
+                      },
+                      icon: Icon(_connectionUrl != null
+                          ? Icons.arrow_back
+                          : Icons.qr_code))
+                  : const SizedBox.shrink(),
               IconButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -146,7 +153,7 @@ class _TonConnectDialogState extends State<TonConnectDialog> {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 32),
-          if (_connectionUrl != null)
+          if (_connectionUrl != null) ...[
             Center(
               child: SizedBox(
                 width: 300,
@@ -160,19 +167,35 @@ class _TonConnectDialogState extends State<TonConnectDialog> {
                 ),
               ),
             ),
+            SizedBox(
+                width: double.maxFinite,
+                child: ElevatedButton(
+                  onPressed: () {
+                    launchUrlString(_connectionUrl!);
+                  },
+                  child: const Text('Open Wallet'),
+                )),
+            const SizedBox(height: 8),
+          ],
           if (_connectionUrl == null)
             ...widget.wallets.map((e) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: ListTile(
                   onTap: () {
-                    widget.state.connect(walletApp: e, request: {'ton_proof': 'eyJkb21haW4iOiJwaXp6YXRvbi5tZSIsInRpbWUiOjE3MTU5NTA4NjcsImlwIjoiNjUuMjEuMjU1LjEzOCJ9\/38e515bd339ce693ec918e50dc166ca8'}).then((url) {
+                    widget.state
+                        .connect(
+                            walletApp: e,
+                            request: widget.payload != null
+                                ? {'ton_proof': widget.payload}
+                                : null)
+                        .then((url) {
                       setState(() {
                         _selectedWallet = e;
                         _connectionUrl = url;
                       });
                     }).catchError((e) {
-                      if(e is WalletAlreadyConnectedError) {
+                      if (e is WalletAlreadyConnectedError) {
                         // TODO: wallet already connected!
                       }
                     });
@@ -200,7 +223,7 @@ class _TonConnectDialogState extends State<TonConnectDialog> {
   }
 
   void _listenToConnectionStatus() {
-    if(widget.state.connected) {
+    if (widget.state.connected) {
       Navigator.pop(context);
     }
   }

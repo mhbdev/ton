@@ -1,6 +1,6 @@
 name: ton
 description: Ton Sdk for Flutter
-version: 0.0.4
+version: 0.0.6
 homepage: https://github.com/mhbdev/ton
 
 environment:
@@ -28,6 +28,7 @@ dependencies:
   provider: ^6.1.1
   qr_flutter: ^4.1.0
   flutter_i18n: ^0.35.1
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
