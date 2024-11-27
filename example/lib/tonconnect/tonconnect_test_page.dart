@@ -13,8 +13,17 @@ class _TonConnectTestPageState extends State<TonConnectTestPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: const [
-          TonConnectButton(),
+        actions: [
+          TonConnectButton(
+            builder: (context, state, buttonState, handler) {
+              return GestureDetector(
+                onTap: () {
+                  handler();
+                },
+                child: Text(state.connected ? 'Connected' : 'Connect'),
+              );
+            },
+          ),
         ],
       ),
     );
