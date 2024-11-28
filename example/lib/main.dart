@@ -21,14 +21,32 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  final _tonPlugin = Ton();
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      builder: (context, child) {
+        return TonConnectUiProvider(
+          manifestUrl:
+              'https://raw.githubusercontent.com/XaBbl4/pytonconnect/main/pytonconnect-manifest.json',
+          child: child!,
+        );
+      },
+      home: HomeWidget(),
+    );
+  }
+}
+
+class HomeWidget extends StatefulWidget {
+  const HomeWidget({super.key});
 
   @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
+  State<HomeWidget> createState() => _HomeWidgetState();
+}
+
+class _HomeWidgetState extends State<HomeWidget> {
+  String _platformVersion = 'Unknown';
+  final _tonPlugin = Ton();
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
@@ -52,113 +70,109 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      builder: (context, child) {
-        return TonConnectUiProvider(
-          manifestUrl:
-              'https://raw.githubusercontent.com/XaBbl4/pytonconnect/main/pytonconnect-manifest.json',
-          child: child ?? const SizedBox.shrink(),
-        );
-      },
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                Text('Running on: $_platformVersion\n'),
-                FutureBuilder(
-                    future: _tonPlugin.randomMnemonic(password: "HELLOWORLD"),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return Text(snapshot.error.toString());
-                      }
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Plugin example app'),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Text('Running on: $_platformVersion\n'),
+              FutureBuilder(
+                  future: _tonPlugin.randomMnemonic(password: "HELLOWORLD"),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text(snapshot.error.toString());
+                    }
 
-                      if (snapshot.hasData && snapshot.data != null) {
-                        return Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  'Mnemonic:',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                    if (snapshot.hasData && snapshot.data != null) {
+                      return Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'Mnemonic:',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Expanded(
+                                child: FutureBuilder(
+                                  future:
+                                  _tonPlugin.isMnemonicValid(snapshot.data!, 'HELLOWORLD'),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasError) {
+                                      return Text(
+                                        snapshot.error.toString(),
+                                        textAlign: TextAlign.end,
+                                        maxLines: 1,
+                                      );
+                                    }
+
+                                    if (snapshot.hasData && snapshot.data != null) {
+                                      return Text(
+                                        snapshot.data! ? 'Valid' : 'Invalid',
+                                        textAlign: TextAlign.end,
+                                        maxLines: 1,
+                                      );
+                                    }
+
+                                    return const CircularProgressIndicator();
+                                  },
                                 ),
-                                Expanded(
-                                  child: FutureBuilder(
-                                    future:
-                                    _tonPlugin.isMnemonicValid(snapshot.data!, 'HELLOWORLD'),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasError) {
-                                        return Text(
-                                          snapshot.error.toString(),
-                                          textAlign: TextAlign.end,
-                                          maxLines: 1,
-                                        );
-                                      }
+                              ),
+                            ],
+                          ),
+                          Text(snapshot.data!.join(', ')),
+                          const Divider(),
+                          FutureBuilder(
+                            future: _tonPlugin.toSeed(snapshot.data!),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return Text(snapshot.error.toString());
+                              }
 
-                                      if (snapshot.hasData && snapshot.data != null) {
-                                        return Text(
-                                          snapshot.data! ? 'Valid' : 'Invalid',
-                                          textAlign: TextAlign.end,
-                                          maxLines: 1,
-                                        );
-                                      }
+                              if (snapshot.hasData && snapshot.data != null) {
+                                return Column(
+                                  children: [
+                                    const Text(
+                                      'Seed:',
+                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(base64Encode(snapshot.data!)),
+                                    const Divider(),
+                                  ],
+                                );
+                              }
 
-                                      return const CircularProgressIndicator();
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Text(snapshot.data!.join(', ')),
-                            const Divider(),
-                            FutureBuilder(
-                              future: _tonPlugin.toSeed(snapshot.data!),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasError) {
-                                  return Text(snapshot.error.toString());
-                                }
+                              return const Text('Converting mnemonic to seed...');
+                            },
+                          ),
+                        ],
+                      );
+                    }
 
-                                if (snapshot.hasData && snapshot.data != null) {
-                                  return Column(
-                                    children: [
-                                      const Text(
-                                        'Seed:',
-                                        style: TextStyle(fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(base64Encode(snapshot.data!)),
-                                      const Divider(),
-                                    ],
-                                  );
-                                }
-
-                                return const Text('Converting mnemonic to seed...');
-                              },
-                            ),
-                          ],
-                        );
-                      }
-
-                      return const Text('Creating random mnemonic...');
-                    }),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TonConnectTestPage(),
-                        ));
-                  },
-                  child: const Text('Ton Connect UI'),
-                )
-              ],
-            ),
+                    return const Text('Creating random mnemonic...');
+                  }),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TonConnectTestPage(),
+                      ));
+                },
+                child: const Text('Ton Connect UI'),
+              )
+            ],
           ),
         ),
       ),

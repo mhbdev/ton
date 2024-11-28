@@ -1,3 +1,7 @@
+## 0.0.7
+
+* Example project is fixed
+
 ## 0.0.6
 
 * TonConnect improvements
